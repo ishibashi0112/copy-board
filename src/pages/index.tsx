@@ -1,22 +1,31 @@
 import {
-  Stack,
   Text,
   UnstyledButton,
   Button,
   Container,
   Title,
-  Modal,
-  TextInput,
-  Textarea,
+  Card,
+  Group,
+  SimpleGrid,
+  Menu,
+  ScrollArea,
+  Tooltip,
+  Flex,
 } from "@mantine/core";
-import { useForm } from "@mantine/form";
 import { useClipboard } from "@mantine/hooks";
 import { PrismaClient } from "@prisma/client";
+import {
+  CheckCircledIcon,
+  CrossCircledIcon,
+  DotsHorizontalIcon,
+  Pencil2Icon,
+} from "@radix-ui/react-icons";
 import dayjs from "dayjs";
 import { NextPage } from "next";
-import { MouseEventHandler, useState } from "react";
+import { useCallback, useRef } from "react";
+import { useModal } from "src/hooks/useModal";
 
-type Contents = {
+export type Contents = {
   id: string;
   createdAt: string;
   updatedAt: string;
@@ -28,14 +37,11 @@ type Props = {
   contents: Contents[];
 };
 
-type formValues = {
-  title: string;
-  body: string;
-};
-
 export const getStaticProps = async () => {
   const prisma = new PrismaClient();
-  const contents = await prisma.contents.findMany();
+  const contents = await prisma.contents.findMany({
+    orderBy: { updatedAt: "asc" },
+  });
   const dateToStringContens = contents.map((content) => {
     return {
       ...content,
@@ -50,86 +56,116 @@ export const getStaticProps = async () => {
 };
 
 const Home: NextPage<Props> = ({ contents }) => {
-  const [opened, setOpened] = useState(false);
-  const clipboard = useClipboard({ timeout: 500 });
-  const handleClickCopy: MouseEventHandler<HTMLButtonElement> = (event) => {
-    clipboard.copy(event.currentTarget.dataset.contentText);
-  };
+  const clipboard = useClipboard({ timeout: 800 });
+  let clickTargetId = useRef<string>("");
 
-  const form = useForm<formValues>({
-    initialValues: {
-      title: "",
-      body: "",
+  const { handleOpenModal, modalComponent } = useModal();
+
+  const handleClickCopy = useCallback(
+    (body: string, id: string) => {
+      clickTargetId.current = id;
+      clipboard.copy(body);
     },
-  });
-  const [isLoading, setIsLoading] = useState(false);
-
-  const createContent = async (values: formValues): Promise<void> => {
-    const res = await fetch("/api/content", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    });
-    console.log(res);
-
-    if (!res.ok) {
-      throw new Error("作成が失敗しました。");
-    }
-
-    const json = res.json();
-
-    return json;
-  };
-
-  const handleSubmit = async (values: formValues): Promise<void> => {
-    try {
-      setIsLoading(true);
-      await createContent(values);
-      alert("作成しました。");
-    } catch (error) {
-      alert(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    [clipboard]
+  );
 
   return (
-    <div>
+    <div className="h-screen">
       <Container size="lg">
         <header className="flex justify-between items-center h-12 px-5 mb-3">
           <Title order={3}>copy board</Title>
-          <Button onClick={() => setOpened((o) => !o)}>追加</Button>
+          <Button onClick={() => handleOpenModal("POST")}>追加</Button>
         </header>
-        <Stack>
+
+        <SimpleGrid
+          cols={3}
+          breakpoints={[
+            { maxWidth: 980, cols: 3, spacing: "md" },
+            { maxWidth: 755, cols: 2, spacing: "sm" },
+            { maxWidth: 600, cols: 1, spacing: "sm" },
+          ]}
+        >
           {contents.map((content) => (
-            <UnstyledButton
-              className=" bg-gray-200  p-2  rounded-sm transition hover:transition hover:bg-gray-300 active:bg-blue-100"
+            <Tooltip
+              label={
+                <Flex
+                  gap={1}
+                  justify="flex-start"
+                  align="center"
+                  direction="row"
+                  wrap="wrap"
+                >
+                  <CheckCircledIcon />
+                  <Text>Copyed!</Text>
+                </Flex>
+              }
+              opened={clipboard.copied && content.id === clickTargetId.current}
               key={content.id}
-              onClick={handleClickCopy}
-              data-content-text={content.body}
+              withArrow
             >
-              <Text>{content.title ? content.title : "無題"}</Text>
-              <Text>{content.body}</Text>
-            </UnstyledButton>
+              <UnstyledButton
+                className="z-0"
+                onClick={() => {
+                  handleClickCopy(content.body, content.id);
+                }}
+              >
+                <Card
+                  className=" transition hover:bg-gray-100 hover:transition "
+                  shadow="sm"
+                  p="md"
+                  radius="md"
+                  withBorder
+                  h={150}
+                >
+                  <Card.Section withBorder inheritPadding py={3}>
+                    <Group position="apart">
+                      <Title order={5}>
+                        {content.title ? content.title : "無題"}
+                      </Title>
+                      <Menu
+                        withinPortal
+                        position="bottom-end"
+                        shadow="sm"
+                        trigger="hover"
+                        openDelay={100}
+                      >
+                        <Menu.Target>
+                          <DotsHorizontalIcon />
+                        </Menu.Target>
+
+                        <Menu.Dropdown>
+                          <Menu.Item
+                            icon={<Pencil2Icon />}
+                            onClick={() => handleOpenModal("PUT", content)}
+                          >
+                            編集
+                          </Menu.Item>
+                          <Menu.Item
+                            icon={<CrossCircledIcon />}
+                            color="red"
+                            onClick={() => handleOpenModal("DELETE", content)}
+                          >
+                            削除
+                          </Menu.Item>
+                        </Menu.Dropdown>
+                      </Menu>
+                    </Group>
+                  </Card.Section>
+                  <Card.Section withBorder inheritPadding py={3}>
+                    <ScrollArea style={{ height: 110 }}>
+                      <Text className="whitespace-pre-wrap" fz="sm">
+                        {content.body}
+                      </Text>
+                    </ScrollArea>
+                  </Card.Section>
+                </Card>
+              </UnstyledButton>
+            </Tooltip>
           ))}
-        </Stack>
+        </SimpleGrid>
       </Container>
 
-      <Modal
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title="Introduce yourself!"
-      >
-        <form className="space-y-3" onSubmit={form.onSubmit(handleSubmit)}>
-          <TextInput label="title" {...form.getInputProps("title")} />
-          <Textarea label="body" autosize {...form.getInputProps("body")} />
-          <Button className="w-full" type="submit" loading={isLoading}>
-            作成
-          </Button>
-        </form>
-      </Modal>
+      {modalComponent}
     </div>
   );
 };
