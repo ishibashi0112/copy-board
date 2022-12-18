@@ -6,7 +6,7 @@ import { NotificationsProvider } from "@mantine/notifications";
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
-      <NotificationsProvider>
+      <NotificationsProvider position="top-center">
         <Component {...pageProps} />
       </NotificationsProvider>
     </MantineProvider>

@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const id = req.query.id as string;
+
   try {
     if (req.method === "PUT") {
       await prisma.contents.update({

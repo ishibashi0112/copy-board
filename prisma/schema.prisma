@@ -15,6 +15,6 @@ model Contents {
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
   title     String?
-  body      String
+  body      String      @db.VarChar(1000)
 }
 

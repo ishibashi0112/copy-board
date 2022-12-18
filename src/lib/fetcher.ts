@@ -1,18 +1,26 @@
-import { formValues, modalType } from "src/hooks/useModal";
+export type Method = "POST" | "PUT" | "DELETE";
 
+type BodyData = {
+  title: string;
+  body: string;
+};
 export const contentFetch = async (
-  method: modalType,
-  values: formValues | null,
+  method: Method,
+  bodyData: BodyData | null,
   id: string | null = null
 ): Promise<void> => {
+  console.log(`id ${id}`);
+
   const url = id ? `/api/content/${id}` : `/api/content/`;
   const params = {
     method,
     headers: {
       "Content-Type": "application/json",
     },
-    body: values ? JSON.stringify(values) : null,
+    body: bodyData ? JSON.stringify(bodyData) : null,
   };
+  console.log(params);
+
   const res = await fetch(url, params);
 
   if (!res.ok) {
