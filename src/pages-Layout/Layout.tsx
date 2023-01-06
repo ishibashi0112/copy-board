@@ -18,9 +18,9 @@ type Props = {
 
 export const Layout: FC<Props> = ({ children }) => {
   return (
-    <div className="h-screen bg-gray-100">
-      <Container size="lg">
-        <Header />
+    <div className="h-screen">
+      <Header />
+      <Container className="pt-10" size="lg">
         {children}
       </Container>
     </div>

@@ -1,4 +1,12 @@
-import { Button, Title } from "@mantine/core";
+import {
+  Button,
+  Title,
+  Header as MantineHeader,
+  Container,
+  Flex,
+  Anchor,
+  Group,
+} from "@mantine/core";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FC } from "react";
@@ -7,19 +15,25 @@ export const Header: FC = () => {
   const { pathname } = useRouter();
 
   return (
-    <header className="bg-white flex justify-between items-center h-12 px-5 mb-3">
-      <Link className="no-underline text-black" href="/">
-        <Title order={3}>copy board</Title>
-      </Link>
-
-      {pathname === "/" ? (
-        <Link
-          className="no-underline px-5 py-1 font-sans font-semibold text-white bg-blue-500 rounded-md "
-          href="/form"
-        >
-          追加
-        </Link>
-      ) : null}
-    </header>
+    <MantineHeader height={50}>
+      <Container size="lg">
+        <Flex mih={50} justify="space-between" align="center">
+          <Anchor variant="text" component={Link} href="/">
+            <Title order={3}>copy board</Title>
+          </Anchor>
+          <Group>
+            {pathname === "/" && (
+              <Button
+                className="active:translate-y-0"
+                component={Link}
+                href="/form"
+              >
+                追加
+              </Button>
+            )}
+          </Group>
+        </Flex>
+      </Container>
+    </MantineHeader>
   );
 };

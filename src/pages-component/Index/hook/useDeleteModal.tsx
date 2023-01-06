@@ -27,7 +27,7 @@ export const useDeleteModal = () => {
     isLoading: false,
   });
 
-  const handleOpenModal = useCallback((content: Contents): void => {
+  const openModal = useCallback((content: Contents): void => {
     setModalState((prev) => ({
       ...prev,
       content,
@@ -101,7 +101,7 @@ export const useDeleteModal = () => {
   );
 
   return {
-    handleOpenModal,
+    openModal,
     modalComponent,
   };
 };
