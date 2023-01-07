@@ -62,7 +62,7 @@ export const CopyCard: FC<Props> = ({ content, openModal }) => {
   return (
     <div
       className={`${copied ? "border-blue-600" : "border-zinc-600"} 
-          relative p-3 border-solid border   bg-zinc-800 rounded-md transition  hover:bg-zinc-700  hover:transition `}
+          relative p-3 border-solid border bg-zinc-800 rounded-md transition  hover:bg-zinc-700  hover:transition `}
       key={content.id}
     >
       <Group position="apart">
@@ -74,11 +74,14 @@ export const CopyCard: FC<Props> = ({ content, openModal }) => {
         </Group>
       </Group>
 
-      <ScrollArea className="pt-2" style={{ height: 110 }}>
-        <UnstyledButton onClick={() => copy(content.body)}>
+      <UnstyledButton
+        className="block w-full"
+        onClick={() => copy(content.body)}
+      >
+        <ScrollArea className="pt-2" style={{ height: 110 }}>
           <Text className="whitespace-pre-wrap">{content.body}</Text>
-        </UnstyledButton>
-      </ScrollArea>
+        </ScrollArea>
+      </UnstyledButton>
 
       <CopyedBadge copied={copied} />
     </div>

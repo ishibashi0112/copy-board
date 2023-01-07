@@ -1,22 +1,32 @@
-import { Button, Textarea, TextInput, Title } from "@mantine/core";
+import {
+  Button,
+  NativeSelect,
+  Select,
+  Textarea,
+  TextInput,
+  Title,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
-
 import { useRouter } from "next/router";
 import { FC, useCallback, useState } from "react";
 import { contentFetch, reavalidate } from "src/lib/fetcher";
-import { Contents } from "src/pages";
+import { Contents, Tag } from "src/pages";
 
 type Props = {
-  content?: Contents;
+  tags: Pick<Tag, "id" | "name">[];
+  content?: Omit<Contents, "createdAt" | "updatedAt">;
 };
 
-export const FormBody: FC<Props> = ({ content }) => {
+export const FormBody: FC<Props> = ({ tags, content }) => {
   const { pathname, push } = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
+  const selectData = tags.map((tag) => ({ label: tag.name, value: tag.id }));
+
   const form = useForm({
     initialValues: {
+      tagId: content ? content.tagId : "",
       title: content ? content.title : "",
       body: content ? content.body : "",
     },
@@ -53,7 +63,7 @@ export const FormBody: FC<Props> = ({ content }) => {
       }
     },
 
-    [form, content, pathname]
+    [form, pathname]
   );
 
   return (
@@ -63,6 +73,14 @@ export const FormBody: FC<Props> = ({ content }) => {
       </Title>
 
       <form className="space-y-3" onSubmit={form.onSubmit(handleSubmit)}>
+        <NativeSelect
+          label="タグ"
+          placeholder="タグを選択"
+          data={selectData}
+          required
+          {...form.getInputProps("tagId")}
+        />
+
         <TextInput label="タイトル" required {...form.getInputProps("title")} />
         <Textarea
           classNames={{ input: "min-h-[300px]" }}
@@ -75,6 +93,7 @@ export const FormBody: FC<Props> = ({ content }) => {
         <Button
           className="block w-24 ml-auto"
           loading={isLoading}
+          loaderPosition="center"
           type="submit"
         >
           {buttonName}

@@ -1,16 +1,19 @@
 export type Method = "POST" | "PUT" | "DELETE";
 
-type BodyData = {
+type ContentBodyData = {
   title: string;
   body: string;
 };
+
+type TagBodyData = {
+  name: string;
+};
+
 export const contentFetch = async (
   method: Method,
-  bodyData: BodyData | null,
+  bodyData: ContentBodyData | null,
   id: string | null = null
 ): Promise<void> => {
-  console.log(`id ${id}`);
-
   const url = id ? `/api/content/${id}` : `/api/content/`;
   const params = {
     method,
@@ -19,7 +22,31 @@ export const contentFetch = async (
     },
     body: bodyData ? JSON.stringify(bodyData) : null,
   };
-  console.log(params);
+
+  const res = await fetch(url, params);
+
+  if (!res.ok) {
+    throw new Error("失敗しました。");
+  }
+
+  const json = res.json();
+
+  return json;
+};
+
+export const tagFetch = async (
+  method: Method,
+  bodyData: TagBodyData | null,
+  id: string | null = null
+): Promise<void> => {
+  const url = id ? `/api/tag/${id}` : `/api/tag/`;
+  const params = {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: bodyData ? JSON.stringify(bodyData) : null,
+  };
 
   const res = await fetch(url, params);
 

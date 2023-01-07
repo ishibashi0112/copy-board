@@ -25,6 +25,7 @@ export const Header: FC = () => {
             {pathname === "/" && (
               <Button
                 className="active:translate-y-0"
+                size="xs"
                 component={Link}
                 href="/form"
               >

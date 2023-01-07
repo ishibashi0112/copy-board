@@ -4,15 +4,24 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const id = req.query.id as string;
+
   try {
-    await prisma.contents.create({
-      data: req.body,
-    });
-    console.log(req.body);
+    if (req.method === "PUT") {
+      await prisma.tags.update({
+        where: { id },
+        data: req.body,
+      });
+    }
+
+    if (req.method === "DELETE") {
+      await prisma.tags.deleteMany({
+        where: { id },
+      });
+    }
+
     res.status(200).json({ ok: true });
   } catch (error) {
-    console.log(error);
-
     res.status(500).json({ ok: false });
   }
 };

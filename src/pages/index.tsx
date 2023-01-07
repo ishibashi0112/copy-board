@@ -10,34 +10,53 @@ export type Contents = {
   updatedAt: string;
   title: string;
   body: string;
+  tagId: string;
+};
+
+export type Tag = {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  name: string;
+  contents: Contents[];
 };
 
 type Props = {
-  contents: Contents[];
+  tags: Tag[];
 };
 
 export const getStaticProps = async () => {
   const prisma = new PrismaClient();
-  const contents = await prisma.contents.findMany({
+
+  const tags = await prisma.tags.findMany({
     orderBy: { updatedAt: "asc" },
+    include: { contents: true },
   });
-  const dateToStringContents = contents.map((content) => {
-    return {
+
+  const dateToStringTags = tags.map((tag) => {
+    const dateToStringContents = tag.contents.map((content) => ({
       ...content,
       createdAt: dayjs(content.createdAt).format("YYYY/MM/DD"),
       updatedAt: dayjs(content.updatedAt).format("YYYY/MM/DD"),
+    }));
+
+    return {
+      ...tag,
+      createdAt: dayjs(tag.createdAt).format("YYYY/MM/DD"),
+      updatedAt: dayjs(tag.updatedAt).format("YYYY/MM/DD"),
+      contents: dateToStringContents,
     };
   });
 
   return {
-    props: { contents: [...dateToStringContents] },
+    props: { tags: [...dateToStringTags] },
   };
 };
 
-const Home: NextPage<Props> = ({ contents }) => {
+const Home: NextPage<Props> = ({ tags }) => {
   return (
     <Layout>
-      <IndexBody contents={contents} />
+      <IndexBody tags={tags} />
     </Layout>
   );
 };

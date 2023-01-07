@@ -1,8 +1,6 @@
 import { Container } from "@mantine/core";
-
 import { FC, ReactNode } from "react";
-
-import { Header } from "src/pages-component/Header";
+import { Header } from "src/pages-Layout/Header";
 
 export type Contents = {
   id: string;
@@ -18,7 +16,7 @@ type Props = {
 
 export const Layout: FC<Props> = ({ children }) => {
   return (
-    <div className="h-screen">
+    <div>
       <Header />
       <Container className="pt-10" size="lg">
         {children}

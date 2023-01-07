@@ -1,4 +1,4 @@
-import { Button, Modal, ScrollArea, Text } from "@mantine/core";
+import { Button, Modal, Textarea, TextInput } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
@@ -70,27 +70,26 @@ export const useDeleteModal = () => {
       title="削除画面"
     >
       <div className="space-y-3">
-        <div>
-          <Text fz="xs" underline>
-            タイトル
-          </Text>
-          <Text fz="xl">{`${modalState.content.title}`}</Text>
-        </div>
-        <div>
-          <Text fz="xs" underline>
-            内容
-          </Text>
-          <ScrollArea style={{ height: 200 }}>
-            <div
-              className="text-md"
-              dangerouslySetInnerHTML={{ __html: modalState.content.body }}
-            />
-          </ScrollArea>
-        </div>
+        <TextInput
+          classNames={{ input: "focus: border-none" }}
+          label="タイトル"
+          defaultValue={modalState.content.title}
+          readOnly
+          variant="default"
+        />
+        <Textarea
+          classNames={{ input: "focus: border-none" }}
+          label="内容"
+          defaultValue={modalState.content.body}
+          readOnly
+          autosize
+          variant="default"
+        />
 
         <Button
-          className="flex mt-10 ml-auto"
+          className="flex mt-10 ml-auto active:translate-y-0"
           variant="outline"
+          color="red"
           loading={modalState.isLoading}
           onClick={() => handleDelete()}
         >
