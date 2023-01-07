@@ -17,6 +17,7 @@ const initialContent = {
   updatedAt: "",
   title: "",
   body: "",
+  tagId: "",
 };
 
 export const useDeleteModal = () => {
