@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { GetStaticProps, NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { FormBody } from "src/pages-component/form/FormBody";
 import { Layout } from "src/pages-Layout/Layout";
 import { Tag } from "src/pages";
@@ -8,7 +8,7 @@ type Props = {
   tags: Pick<Tag, "id" | "name">[];
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const prisma = new PrismaClient();
 
   const tags = await prisma.tags.findMany({
