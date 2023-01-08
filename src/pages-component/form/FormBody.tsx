@@ -1,11 +1,4 @@
-import {
-  Button,
-  NativeSelect,
-  Select,
-  Textarea,
-  TextInput,
-  Title,
-} from "@mantine/core";
+import { Button, Select, Textarea, TextInput, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import { useRouter } from "next/router";
@@ -73,7 +66,7 @@ export const FormBody: FC<Props> = ({ tags, content }) => {
       </Title>
 
       <form className="space-y-3" onSubmit={form.onSubmit(handleSubmit)}>
-        <NativeSelect
+        <Select
           label="タグ"
           placeholder="タグを選択"
           data={selectData}
