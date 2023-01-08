@@ -1,5 +1,4 @@
 import {
-  Button,
   Title,
   Header as MantineHeader,
   Container,
@@ -8,12 +7,11 @@ import {
   Group,
 } from "@mantine/core";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { FC } from "react";
+import { useDarkMode } from "src/lib/hook/useDarkMode";
 
 export const Header: FC = () => {
-  const { pathname } = useRouter();
-
+  const { Switch } = useDarkMode();
   return (
     <MantineHeader height={50}>
       <Container size="lg">
@@ -21,18 +19,7 @@ export const Header: FC = () => {
           <Anchor variant="text" component={Link} href="/">
             <Title order={3}>copy board</Title>
           </Anchor>
-          <Group>
-            {pathname === "/" && (
-              <Button
-                className="active:translate-y-0"
-                size="xs"
-                component={Link}
-                href="/form"
-              >
-                追加
-              </Button>
-            )}
-          </Group>
+          <Group>{Switch}</Group>
         </Flex>
       </Container>
     </MantineHeader>

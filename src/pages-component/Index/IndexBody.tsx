@@ -4,7 +4,6 @@ import {
   Avatar,
   Button,
   Group,
-  Indicator,
   Popover,
   SimpleGrid,
   Tabs,
@@ -14,18 +13,22 @@ import {
 import { useDeleteModal } from "src/pages-component/Index/hook/useDeleteModal";
 import { Tag } from "src/pages";
 import { CopyCard } from "./CopyCard";
-import { FC, ReactNode, useCallback, useState } from "react";
+import React, { FC, ReactNode, useCallback, useState } from "react";
 import { InfoCircledIcon, PlusIcon } from "@radix-ui/react-icons";
 import { useForm } from "@mantine/form";
 import { reavalidate, tagFetch } from "src/lib/fetcher";
 import { showNotification } from "@mantine/notifications";
 import { useRouter } from "next/router";
+import Link from "next/link";
+import { useDarkMode } from "src/lib/hook/useDarkMode";
 
 type Props = {
   tags: Tag[];
 };
 
 export const IndexBody: FC<Props> = ({ tags }) => {
+  const { isDark } = useDarkMode();
+  const [activeTab, setActiveTab] = useState<string | null>(tags[0].id);
   const { openModal, modalComponent } = useDeleteModal();
 
   if (!tags.length) {
@@ -47,15 +50,26 @@ export const IndexBody: FC<Props> = ({ tags }) => {
 
   return (
     <>
-      <Tabs>
-        <Tabs.List className="flex justify-between">
+      <Tabs
+        variant="pills"
+        color={isDark ? "gray" : "blue"}
+        value={activeTab}
+        onTabChange={setActiveTab}
+      >
+        <Tabs.List className="flex justify-between ">
           <div className="flex">
             {tags.map((tag) => (
               <Tabs.Tab className="flex" key={tag.id} value={tag.id}>
-                <Group align="center">
+                <Group align="center" spacing={5}>
                   <Text>{tag.name}</Text>
                   {tag.contents.length ? (
-                    <Avatar size={19} radius="xl" color="blue" variant="filled">
+                    <Avatar
+                      className="bg-opacity-20"
+                      size={19}
+                      radius="xl"
+                      color="blue"
+                      variant={isDark ? "filled" : "light"}
+                    >
                       {tag.contents.length}
                     </Avatar>
                   ) : null}
@@ -64,7 +78,7 @@ export const IndexBody: FC<Props> = ({ tags }) => {
             ))}
           </div>
 
-          <Group position="right">
+          <Group position="right" spacing={1}>
             <CreateTagFormPop
               targetComponent={
                 <Button
@@ -72,12 +86,21 @@ export const IndexBody: FC<Props> = ({ tags }) => {
                   classNames={{ leftIcon: "mr-1" }}
                   size="xs"
                   variant="subtle"
-                  leftIcon={<PlusIcon />}
+                  // leftIcon={<PlusIcon />}
                 >
-                  タブ追加
+                  タブを作成
                 </Button>
               }
             />
+            <Button
+              className="active:translate-y-0"
+              size="xs"
+              variant="subtle"
+              component={Link}
+              href="/form"
+            >
+              コンテンツを作成
+            </Button>
           </Group>
         </Tabs.List>
         {tags.map((tag) => (

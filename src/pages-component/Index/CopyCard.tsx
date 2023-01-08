@@ -10,6 +10,7 @@ import {
   ActionIcon,
   Popover,
   Textarea,
+  Card,
 } from "@mantine/core";
 import { useClipboard, useMediaQuery } from "@mantine/hooks";
 import {
@@ -20,6 +21,7 @@ import {
 } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { FC, useState } from "react";
+import { useDarkMode } from "src/lib/hook/useDarkMode";
 import { Contents } from "src/pages";
 
 type Props = {
@@ -30,13 +32,16 @@ type Props = {
 export const CopyCard: FC<Props> = ({ content, openModal }) => {
   const { copy, copied } = useClipboard({ timeout: 800 });
 
+  const { isDark } = useDarkMode();
   const mediaQuery = useMediaQuery("(max-width: 600px)");
 
   if (mediaQuery) {
     return (
-      <div
-        className={`${copied ? "border-blue-600" : "border-zinc-600"} 
-            relative p-3 border-solid border   bg-zinc-800 rounded-md transition  hover:bg-zinc-700  hover:transition `}
+      <Card
+        className={`${copied ? "border-blue-600" : ""}
+          relative p-3 overflow-visible  transition  hover:bg-zinc-700  hover:transition `}
+        radius="sm"
+        withBorder
         key={content.id}
       >
         <Group position="apart">
@@ -55,14 +60,18 @@ export const CopyCard: FC<Props> = ({ content, openModal }) => {
         </Group>
 
         <CopyedBadge copied={copied} />
-      </div>
+      </Card>
     );
   }
 
   return (
-    <div
-      className={`${copied ? "border-blue-600" : "border-zinc-600"} 
-          relative p-3 border-solid border bg-zinc-800 rounded-md transition  hover:bg-zinc-700  hover:transition `}
+    <Card
+      className={`
+          ${copied ? "border-blue-600" : ""}
+          ${isDark ? "hover:bg-zinc-700" : "hover:bg-blue-50 hover:shadow-sm"}
+          relative p-3 overflow-visible  transition  hover:transition `}
+      radius="sm"
+      withBorder
       key={content.id}
     >
       <Group position="apart">
@@ -84,7 +93,7 @@ export const CopyCard: FC<Props> = ({ content, openModal }) => {
       </UnstyledButton>
 
       <CopyedBadge copied={copied} />
-    </div>
+    </Card>
   );
 };
 
