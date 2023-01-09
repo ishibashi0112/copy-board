@@ -5,7 +5,7 @@ import { IconCheck, IconX } from "@tabler/icons";
 import { useRouter } from "next/router";
 import { FC, useCallback, useState } from "react";
 import { contentFetch, reavalidate } from "src/lib/fetcher";
-import { Contents, Tag } from "src/pages";
+import { Contents, Tag } from "src/type/types";
 
 type Props = {
   tags: Pick<Tag, "id" | "name">[];

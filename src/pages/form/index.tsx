@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { GetServerSideProps, NextPage } from "next";
 import { FormBody } from "src/pages-component/form/FormBody";
 import { Layout } from "src/pages-Layout/Layout";
-import { Tag } from "src/pages";
+import { Tag } from "src/type/types";
 
 type Props = {
   tags: Pick<Tag, "id" | "name">[];

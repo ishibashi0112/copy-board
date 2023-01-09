@@ -3,7 +3,7 @@ import { showNotification } from "@mantine/notifications";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { contentFetch, reavalidate } from "src/lib/fetcher";
-import { Contents } from "src/pages";
+import { Contents } from "src/type/types";
 import { IconCheck, IconX } from "@tabler/icons";
 
 type ModalState = {

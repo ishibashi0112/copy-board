@@ -22,7 +22,7 @@ import {
 import Link from "next/link";
 import { FC, useState } from "react";
 import { useDarkMode } from "src/lib/hook/useDarkMode";
-import { Contents } from "src/pages";
+import { Contents } from "src/type/types";
 
 type Props = {
   content: Contents;
