@@ -9,7 +9,7 @@ export default class _Document extends Document {
   render() {
     return (
       <Html>
-        <Head />
+        <Head title="copy-board" />
         <body>
           <Main />
           <NextScript />

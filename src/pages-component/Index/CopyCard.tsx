@@ -38,8 +38,10 @@ export const CopyCard: FC<Props> = ({ content, openModal }) => {
   if (mediaQuery) {
     return (
       <Card
-        className={`${copied ? "border-blue-600" : ""}
-          relative p-3 overflow-visible  transition  hover:bg-zinc-700  hover:transition `}
+        className={`
+          ${copied ? "border-blue-600" : ""}
+          ${isDark ? "hover:bg-zinc-700" : "hover:bg-blue-50 hover:shadow-sm"}
+           p-3 overflow-visible  transition  hover:transition `}
         radius="sm"
         withBorder
         key={content.id}
@@ -69,7 +71,7 @@ export const CopyCard: FC<Props> = ({ content, openModal }) => {
       className={`
           ${copied ? "border-blue-600" : ""}
           ${isDark ? "hover:bg-zinc-700" : "hover:bg-blue-50 hover:shadow-sm"}
-          relative p-3 overflow-visible  transition  hover:transition `}
+           p-3 overflow-visible  transition  hover:transition `}
       radius="sm"
       withBorder
       key={content.id}
