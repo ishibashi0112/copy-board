@@ -1,4 +1,3 @@
-import { Menu } from "@mantine/core";
 import { forwardRef, ReactNode } from "react";
 import { Position } from "./useContextMenu";
 
