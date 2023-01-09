@@ -62,7 +62,7 @@ export const TabsList: FC<Props> = ({ tags }) => {
           {mediaQuery ? (
             <>
               <CreateTagFormPop
-                targetComponent={
+                targetElement={
                   <Button
                     className="active:translate-y-0"
                     classNames={{ leftIcon: "mr-1" }}
@@ -97,9 +97,7 @@ export const TabsList: FC<Props> = ({ tags }) => {
               </Menu.Target>
               <Menu.Dropdown>
                 <Menu.Item closeMenuOnClick={false} icon={<PlusIcon />}>
-                  <CreateTagFormPop
-                    targetComponent={<Text> タブを作成</Text>}
-                  />
+                  <CreateTagFormPop targetElement={<Text> タブを作成</Text>} />
                 </Menu.Item>
                 <Menu.Item component={Link} href="/form" icon={<PlusIcon />}>
                   <Text> コンテンツを作成</Text>

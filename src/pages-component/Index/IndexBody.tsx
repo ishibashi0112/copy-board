@@ -29,7 +29,7 @@ export const IndexBody: FC<Props> = ({ tags }) => {
         <Text>
           タグが1つもありません。
           <CreateTagFormPop
-            targetComponent={
+            targetElement={
               <Anchor component="button" type="button">
                 最初のタグを作成
               </Anchor>
