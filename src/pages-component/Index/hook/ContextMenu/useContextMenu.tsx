@@ -9,8 +9,8 @@ export type Position = {
 export type ContextMenuHandler<T = any> = (event: MouseEvent, data?: T) => void;
 
 export const useContextMenu = <T,>() => {
-  const [opened, setOpened] = useState(false);
   const [data, setData] = useState<T | null>(null);
+  const [opened, setOpened] = useState(false);
   const [position, setPosition] = useState<Position>({ top: 0, left: 0 });
 
   const ref = useClickOutside(() => setOpened(false));
@@ -19,9 +19,7 @@ export const useContextMenu = <T,>() => {
     (event, data) => {
       event.preventDefault();
 
-      if (data) {
-        setData(data);
-      }
+      if (data) setData(data);
 
       setPosition({
         top: event.pageY,
