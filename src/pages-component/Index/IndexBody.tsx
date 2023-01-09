@@ -5,7 +5,6 @@ import {
   Avatar,
   Button,
   Card,
-  CardSection,
   Group,
   Menu,
   NavLink,
@@ -21,7 +20,6 @@ import { CopyCard } from "./CopyCard";
 import React, { FC, useState } from "react";
 import {
   CrossCircledIcon,
-  DropdownMenuIcon,
   InfoCircledIcon,
   Pencil2Icon,
   PlusIcon,
@@ -35,7 +33,7 @@ import {
 } from "./hook/ContextMenu/useContextMenu";
 import { ContextMenu } from "./hook/ContextMenu/ContextMenu";
 import { CreateTagFormPop } from "./CreateTagFormPop";
-import { IconMenu } from "@tabler/icons";
+import { IconMenu, IconAlertCircle } from "@tabler/icons";
 
 type Props = {
   tags: Tag[];
@@ -71,7 +69,17 @@ export const IndexBody: FC<Props> = ({ tags }) => {
   }
 
   return (
-    <>
+    <div className="py-3">
+      <Alert
+        classNames={{ root: "my-3 py-2 -z-10", body: "flex items-center" }}
+        icon={<IconAlertCircle size={16} />}
+        color="gray"
+      >
+        <Text fz="xs">
+          更新が反映されない場合は、タイトルをクリックしてください。
+        </Text>
+      </Alert>
+
       <Tabs
         variant="pills"
         color={isDark ? "gray" : "blue"}
@@ -180,7 +188,6 @@ export const IndexBody: FC<Props> = ({ tags }) => {
           </Tabs.Panel>
         ))}
       </Tabs>
-
       <ContextMenu ref={ref} {...contextMenuProps}>
         {data ? (
           <Card withBorder shadow="sm" p={4}>
@@ -203,9 +210,8 @@ export const IndexBody: FC<Props> = ({ tags }) => {
           <></>
         )}
       </ContextMenu>
-
       {modalComponent}
-    </>
+    </div>
   );
 };
 
