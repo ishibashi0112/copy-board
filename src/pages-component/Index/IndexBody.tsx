@@ -58,7 +58,7 @@ export const IndexBody: FC<Props> = ({ tags }) => {
         value={activeTab}
         onTabChange={setActiveTab}
       >
-        <TabsList tags={tags} />
+        <TabsList tags={tags} openModal={openModal} />
 
         <TabsPanels tags={tags} openModal={openModal} />
       </Tabs>

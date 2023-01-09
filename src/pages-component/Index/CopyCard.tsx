@@ -23,10 +23,11 @@ import Link from "next/link";
 import { FC, useState } from "react";
 import { useDarkMode } from "src/lib/hook/useDarkMode";
 import { Contents } from "src/type/types";
+import { OpenModalHandler } from "./hook/useDeleteModal";
 
 type Props = {
   content: Contents;
-  openModal: (content: Contents) => void;
+  openModal: OpenModalHandler;
 };
 
 export const CopyCard: FC<Props> = ({ content, openModal }) => {

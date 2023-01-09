@@ -3,12 +3,14 @@ import { Tag } from "src/type/types";
 import React, { FC } from "react";
 import { CrossCircledIcon, Pencil2Icon } from "@radix-ui/react-icons";
 import { CreateTagFormPop } from "src/pages-component/Index/CreateTagFormPop";
+import { OpenModalHandler } from "../useDeleteModal";
 
 type Props = {
   tagData: Tag | null;
+  openModal: OpenModalHandler;
 };
 
-export const TagCtxMenuBody: FC<Props> = ({ tagData }) => {
+export const TagCtxMenuBody: FC<Props> = ({ tagData, openModal }) => {
   if (!tagData) return <></>;
 
   return (
@@ -29,7 +31,13 @@ export const TagCtxMenuBody: FC<Props> = ({ tagData }) => {
           }
           tag={tagData}
         />
-        <NavLink label="削除" variant="subtle" icon={<CrossCircledIcon />} />
+        <NavLink
+          label="削除"
+          variant="subtle"
+          icon={<CrossCircledIcon />}
+          component="button"
+          onClick={() => openModal(tagData)}
+        />
       </Stack>
     </Card>
   );

@@ -18,12 +18,14 @@ import { CreateTagFormPop } from "./CreateTagFormPop";
 import { IconMenu } from "@tabler/icons";
 import { TagCtxMenuBody } from "./hook/ContextMenu/TagCtxMenuBody";
 import { TabsListItem } from "./TabsListItem";
+import { OpenModalHandler } from "./hook/useDeleteModal";
 
 type Props = {
   tags: Tag[];
+  openModal: OpenModalHandler;
 };
 
-export const TabsList: FC<Props> = ({ tags }) => {
+export const TabsList: FC<Props> = ({ tags, openModal }) => {
   const mediaQuery = useMediaQuery("(min-width: 600px)");
 
   const {
@@ -109,7 +111,7 @@ export const TabsList: FC<Props> = ({ tags }) => {
       </Tabs.List>
 
       <ContextMenu ref={ref} {...contextMenuProps}>
-        <TagCtxMenuBody tagData={tagData} />
+        <TagCtxMenuBody tagData={tagData} openModal={openModal} />
       </ContextMenu>
     </div>
   );

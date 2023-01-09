@@ -1,12 +1,13 @@
 import { Alert, SimpleGrid, Tabs, Text } from "@mantine/core";
-import { Contents, Tag } from "src/type/types";
+import { Tag } from "src/type/types";
 import { CopyCard } from "./CopyCard";
 import React, { FC } from "react";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
+import { OpenModalHandler } from "./hook/useDeleteModal";
 
 type Props = {
   tags: Tag[];
-  openModal: (content: Contents) => void;
+  openModal: OpenModalHandler;
 };
 
 export const TabsPanels: FC<Props> = ({ tags, openModal }) => {
