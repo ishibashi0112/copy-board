@@ -35,6 +35,7 @@ import {
 } from "./hook/ContextMenu/useContextMenu";
 import { ContextMenu } from "./hook/ContextMenu/ContextMenu";
 import { CreateTagFormPop } from "./CreateTagFormPop";
+import { IconMenu } from "@tabler/icons";
 
 type Props = {
   tags: Tag[];
@@ -50,7 +51,11 @@ export const IndexBody: FC<Props> = ({ tags }) => {
 
   if (!tags.length) {
     return (
-      <Alert className="overflow-visible " icon={<InfoCircledIcon />}>
+      <Alert
+        className="overflow-visible "
+        icon={<InfoCircledIcon />}
+        color="gray"
+      >
         <Text>
           タグが1つもありません。
           <CreateTagFormPop
@@ -130,7 +135,7 @@ export const IndexBody: FC<Props> = ({ tags }) => {
                     color="blue"
                     size="lg"
                   >
-                    <DropdownMenuIcon />
+                    <IconMenu />
                   </ActionIcon>
                 </Menu.Target>
                 <Menu.Dropdown>
@@ -168,7 +173,7 @@ export const IndexBody: FC<Props> = ({ tags }) => {
                 ))}
               </SimpleGrid>
             ) : (
-              <Alert className="mt-5" icon={<InfoCircledIcon />}>
+              <Alert className="mt-5" icon={<InfoCircledIcon />} color="gray">
                 <Text>コンテンツが1つもありません。</Text>
               </Alert>
             )}

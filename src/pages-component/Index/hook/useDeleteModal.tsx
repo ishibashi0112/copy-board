@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { contentFetch, reavalidate } from "src/lib/fetcher";
 import { Contents } from "src/pages";
+import { IconCheck, IconX } from "@tabler/icons";
 
 type ModalState = {
   content: Contents;
@@ -44,16 +45,18 @@ export const useDeleteModal = () => {
       setModalState((prev) => ({ ...prev, isOpened: false }));
       await push("/");
       showNotification({
-        title: "Succese‼",
-        message: "削除しました",
+        title: "コンテンツ削除",
+        message: "削除が完了しました",
         color: "green",
+        icon: <IconCheck size={18} />,
       });
     } catch (error) {
       console.error(error);
       showNotification({
-        title: "Error",
-        message: "失敗しました。",
+        title: "コンテンツ削除",
+        message: "エラーが発生しました。",
         color: "red",
+        icon: <IconX size={18} />,
       });
     } finally {
       setModalState((prev) => ({ ...prev, isLoading: false }));

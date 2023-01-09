@@ -1,6 +1,7 @@
 import { Button, Select, Textarea, TextInput, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
+import { IconCheck, IconX } from "@tabler/icons";
 import { useRouter } from "next/router";
 import { FC, useCallback, useState } from "react";
 import { contentFetch, reavalidate } from "src/lib/fetcher";
@@ -25,31 +26,33 @@ export const FormBody: FC<Props> = ({ tags, content }) => {
     },
   });
 
-  const formTitle = pathname !== "/form" ? "編集" : "新規作成";
-  const buttonName = pathname !== "/form" ? "保存する" : "作成する";
+  const formTitle = pathname === "/form" ? "新規作成" : "編集";
+  const notificationsText = pathname === "/form" ? "作成" : "編集";
+  const buttonName = pathname === "/form" ? "作成する" : "保存する";
+  const id = content ? content.id : null;
+  const method = pathname === "/form" ? "POST" : "PUT";
 
   const handleSubmit = useCallback(
     async (values: typeof form.values): Promise<void> => {
       try {
         setIsLoading(true);
 
-        const id = content ? content.id : null;
-        const method = pathname !== "/form" ? "PUT" : "POST";
-
         await contentFetch(method, values, id);
         await reavalidate();
         await push("/");
         showNotification({
-          title: "Succese‼",
-          message: "成功しました",
+          title: `コンテンツ${notificationsText}`,
+          message: `${notificationsText}が完了しました`,
           color: "green",
+          icon: <IconCheck size={18} />,
         });
       } catch (error) {
         console.error(error);
         showNotification({
-          title: "Error",
-          message: "失敗しました。",
+          title: `コンテンツ${notificationsText}`,
+          message: "エラーが発生しました。",
           color: "red",
+          icon: <IconX size={18} />,
         });
       } finally {
         setIsLoading(false);
