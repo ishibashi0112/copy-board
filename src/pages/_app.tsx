@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 import { MantineProvider } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
 import { useDarkMode } from "src/lib/hook/useDarkMode";
-import { useSsrPageLoading } from "src/lib/useSsrPageLoading";
+import { useSsrPageLoading } from "src/lib/hook/useSsrPageLoading";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const { colorScheme } = useDarkMode();
