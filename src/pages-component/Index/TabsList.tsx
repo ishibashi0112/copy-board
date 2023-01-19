@@ -68,15 +68,17 @@ export const TabsList: FC<Props> = ({ tags, openModal }) => {
                 leftIcon={<IconCirclePlus size={18} />}
                 href="/form"
               >
-                コンテンツを作成
+                コンテンツ・タブを作成
               </Button>
             </>
           ) : (
-            <Tooltip label="コンテンツを作成" openDelay={500}>
+            <Tooltip label="コンテンツ・タブを作成" openDelay={500}>
               <ActionIcon
                 className="active:translate-y-0"
                 color="blue"
                 size="xl"
+                component={Link}
+                href="/form"
               >
                 <IconCirclePlus size={25} />
               </ActionIcon>
