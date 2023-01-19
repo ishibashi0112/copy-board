@@ -4,10 +4,10 @@ import { Tag } from "src/type/types";
 import React, { FC, useState } from "react";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { useDarkMode } from "src/lib/hook/useDarkMode";
-import { CreateTagFormPop } from "./CreateTagFormPop";
 import { IconAlertCircle } from "@tabler/icons";
 import { TabsList } from "./TabsList";
 import { TabsPanels } from "./TabsPanels";
+import Link from "next/link";
 
 type Props = {
   tags: Tag[];
@@ -28,13 +28,9 @@ export const IndexBody: FC<Props> = ({ tags }) => {
       >
         <Text>
           タグが1つもありません。
-          <CreateTagFormPop
-            targetElement={
-              <Anchor component="button" type="button">
-                最初のタグを作成
-              </Anchor>
-            }
-          />
+          <Anchor component={Link} href="/form">
+            最初のタグを作成
+          </Anchor>
         </Text>
       </Alert>
     );

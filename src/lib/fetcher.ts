@@ -59,6 +59,16 @@ export const tagFetch = async (
   return json;
 };
 
-export const reavalidate = async (): Promise<void> => {
-  await fetch("/api/reavalidate");
+export const reavalidate = async (url: string): Promise<void> => {
+  const params = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ url }),
+  };
+  await fetch(
+    `/api/reavalidate?secret=${process.env.NEXT_PUBLIC_MY_SECRET_TOKEN}`,
+    params
+  );
 };

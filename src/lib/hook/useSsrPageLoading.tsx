@@ -22,7 +22,8 @@ export const useSsrPageLoading = () => {
 
   useEffect(() => {
     const handleStart = (url: "/" | "/form" | "/form/[id]") => {
-      if (url !== "/" && url !== router.asPath) setPageLoading(true);
+      if (url !== "/form" && url !== "/" && url !== router.asPath)
+        setPageLoading(true);
     };
 
     const handleComplete = () => setPageLoading(false);

@@ -9,38 +9,35 @@ import { IconCheck, IconX } from "@tabler/icons";
 
 type Props = {
   targetElement: ReactElement;
-  tag?: Tag;
+  tag: Tag;
 };
 
 export const CreateTagFormPop: FC<Props> = ({ targetElement, tag }) => {
   const [opened, setOpened] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { push } = useRouter();
-  const form = useForm({ initialValues: { name: tag ? tag.name : "" } });
-
-  const text = tag ? "編集" : "作成";
-  const id = tag ? tag.id : null;
-  const method = tag ? "PUT" : "POST";
+  const form = useForm({ initialValues: { name: tag.name } });
 
   const handleSubmit = useCallback(
     async (values: typeof form.values): Promise<void> => {
       try {
         setIsLoading(true);
 
-        await tagFetch(method, values, id);
-        await reavalidate();
+        await tagFetch("PUT", values, tag.id);
+        await reavalidate("/");
+        await reavalidate("/form");
         await push("/");
         setOpened(false);
         showNotification({
-          title: `タグ${text}`,
-          message: `${text}が完了しました。`,
+          title: `タグ編集`,
+          message: `編集が完了しました。`,
           color: "green",
           icon: <IconCheck size={18} />,
         });
       } catch (error) {
         console.error(error);
         showNotification({
-          title: `タグ${text}`,
+          title: `タグ編集`,
           message: "失敗しました。",
           color: "red",
           icon: <IconX size={18} />,
@@ -81,7 +78,7 @@ export const CreateTagFormPop: FC<Props> = ({ targetElement, tag }) => {
             loaderPosition="center"
             loading={isLoading}
           >
-            {text}
+            編集
           </Button>
         </form>
       </Popover.Dropdown>

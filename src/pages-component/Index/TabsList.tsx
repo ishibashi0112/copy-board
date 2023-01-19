@@ -2,20 +2,17 @@ import {
   ActionIcon,
   Button,
   Group,
-  Menu,
   ScrollArea,
   Tabs,
-  Text,
+  Tooltip,
 } from "@mantine/core";
 import { Tag } from "src/type/types";
 import React, { FC } from "react";
-import { PlusIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { useMediaQuery } from "@mantine/hooks";
 import { useContextMenu } from "./hook/ContextMenu/useContextMenu";
 import { ContextMenu } from "./hook/ContextMenu/ContextMenu";
-import { CreateTagFormPop } from "./CreateTagFormPop";
-import { IconMenu } from "@tabler/icons";
+import { IconCirclePlus, IconMenu } from "@tabler/icons";
 import { TagCtxMenuBody } from "./hook/ContextMenu/TagCtxMenuBody";
 import { TabsListItem } from "./TabsListItem";
 import { OpenModalHandler } from "./hook/useDeleteModal";
@@ -63,49 +60,27 @@ export const TabsList: FC<Props> = ({ tags, openModal }) => {
         >
           {mediaQuery ? (
             <>
-              <CreateTagFormPop
-                targetElement={
-                  <Button
-                    className="active:translate-y-0"
-                    classNames={{ leftIcon: "mr-1" }}
-                    size="xs"
-                    variant="subtle"
-                  >
-                    タブを作成
-                  </Button>
-                }
-              />
-
               <Button
                 className="active:translate-y-0"
                 size="xs"
                 variant="subtle"
                 component={Link}
+                leftIcon={<IconCirclePlus size={18} />}
                 href="/form"
               >
                 コンテンツを作成
               </Button>
             </>
           ) : (
-            <Menu position="left-start">
-              <Menu.Target>
-                <ActionIcon
-                  className="active:translate-y-0"
-                  color="blue"
-                  size="lg"
-                >
-                  <IconMenu />
-                </ActionIcon>
-              </Menu.Target>
-              <Menu.Dropdown>
-                <Menu.Item closeMenuOnClick={false} icon={<PlusIcon />}>
-                  <CreateTagFormPop targetElement={<Text> タブを作成</Text>} />
-                </Menu.Item>
-                <Menu.Item component={Link} href="/form" icon={<PlusIcon />}>
-                  <Text> コンテンツを作成</Text>
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
+            <Tooltip label="コンテンツを作成" openDelay={500}>
+              <ActionIcon
+                className="active:translate-y-0"
+                color="blue"
+                size="xl"
+              >
+                <IconCirclePlus size={25} />
+              </ActionIcon>
+            </Tooltip>
           )}
         </Group>
       </Tabs.List>

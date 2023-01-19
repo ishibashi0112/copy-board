@@ -42,11 +42,13 @@ export const useDeleteModal = () => {
 
       if ("title" in modalState.data) {
         await contentFetch("DELETE", null, modalState.data.id);
+        await reavalidate("/");
       } else {
         await tagFetch("DELETE", null, modalState.data.id);
+        await reavalidate("/");
+        await reavalidate("/form");
       }
 
-      await reavalidate();
       setModalState((prev) => ({ ...prev, isOpened: false }));
       await push("/");
       showNotification({
