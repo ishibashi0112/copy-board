@@ -17,7 +17,7 @@ export const FormBody: FC<Props> = (props) => {
 
   return (
     <div className="min-h-[500px]  p-3 rounded-md ">
-      <Title className="mb-3" order={3}>
+      <Title className="mb-3" order={4}>
         {formTitle}
       </Title>
       {pathname === "/form" ? (

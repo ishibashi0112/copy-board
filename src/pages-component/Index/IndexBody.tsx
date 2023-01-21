@@ -16,7 +16,9 @@ type Props = {
 export const IndexBody: FC<Props> = ({ tags }) => {
   const { isDark } = useDarkMode();
 
-  const [activeTab, setActiveTab] = useState<string | null>(tags[0].id);
+  const [activeTab, setActiveTab] = useState<string | null>(
+    tags[0] ? tags[0].id : ""
+  );
   const { openModal, modalComponent } = useDeleteModal();
 
   if (!tags.length) {
