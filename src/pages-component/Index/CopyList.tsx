@@ -1,11 +1,9 @@
-import { UnstyledButton, Title, Group, ScrollArea, Card } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
-import { FC, useState, useRef } from "react";
+import { Title, Group, Card, Text } from "@mantine/core";
+import { FC, useRef } from "react";
 import { useClipboard } from "src/lib/hook/useClipboard";
 import { useDarkMode } from "src/lib/hook/useDarkMode";
 import { Contents } from "src/type/types";
 import { CopyedBadge } from "./CopiedBadge";
-import { CopyList } from "./CopyList";
 import { FullTextButton } from "./FullTextButton";
 import { OpenModalHandler } from "./hook/useDeleteModal";
 import { Menus } from "./Menus";
@@ -15,7 +13,7 @@ type Props = {
   openModal: OpenModalHandler;
 };
 
-export const CopyCard: FC<Props> = ({ content, openModal }) => {
+export const CopyList: FC<Props> = ({ content, openModal }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { copy, copied } = useClipboard({ timeout: 800 });
 
@@ -27,32 +25,31 @@ export const CopyCard: FC<Props> = ({ content, openModal }) => {
         className={`
           ${copied ? "border-blue-600" : ""}
           ${isDark ? "hover:bg-zinc-700" : "hover:bg-blue-50 hover:shadow-sm"}
-           p-3 overflow-visible  transition  hover:transition `}
+           p-3 overflow-visible  transition  hover:transition cursor-pointer`}
         radius="sm"
         withBorder
+        onClick={() => copy(ref.current as HTMLDivElement)}
       >
-        <UnstyledButton
-          className="block w-full"
-          onClick={() => copy(ref.current as HTMLDivElement)}
-        >
-          <Title order={5}>{content.title}</Title>
-
-          <ScrollArea className="pt-2" style={{ height: 110 }}>
-            <div
-              className="whitespace-pre-wrap"
+        <Group position="apart">
+          <Group noWrap>
+            <Title order={5}>{content.title}</Title>
+            <Text
               ref={ref}
+              fz="xs"
+              color="dimmed"
+              lineClamp={1}
               dangerouslySetInnerHTML={{ __html: content.body }}
             />
-          </ScrollArea>
-        </UnstyledButton>
+          </Group>
+        </Group>
 
         <CopyedBadge copied={copied} />
       </Card>
-      <Group className="absolute top-2 right-2" position="apart">
-        <Group spacing={1}>
-          <FullTextButton content={content} />
-          <Menus content={content} openModal={openModal} />
-        </Group>
+
+      <Group className="absolute top-3 right-2" spacing={1}>
+        <FullTextButton content={content} />
+
+        <Menus content={content} openModal={openModal} />
       </Group>
     </div>
   );

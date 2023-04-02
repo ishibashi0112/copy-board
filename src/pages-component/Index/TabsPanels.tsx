@@ -1,6 +1,6 @@
 import { Alert, SimpleGrid, Tabs, Text } from "@mantine/core";
 import { Tag } from "src/type/types";
-import { CopyCard } from "./CopyCard";
+import { CopyContent } from "./CopyContent";
 import React, { FC } from "react";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { OpenModalHandler } from "./hook/useDeleteModal";
@@ -25,7 +25,7 @@ export const TabsPanels: FC<Props> = ({ tags, openModal }) => {
               ]}
             >
               {tag.contents.map((content) => (
-                <CopyCard
+                <CopyContent
                   key={content.id}
                   content={content}
                   openModal={openModal}
