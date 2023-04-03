@@ -1,3 +1,5 @@
+import { Tag } from "src/type/types";
+
 export type Method = "POST" | "PUT" | "DELETE";
 
 type ContentBodyData = {
@@ -38,8 +40,8 @@ export const tagFetch = async (
   method: Method,
   bodyData: TagBodyData | null,
   id: string | null = null
-): Promise<void> => {
-  const url = id ? `/api/tag/${id}` : `/api/tag/`;
+): Promise<Tag> => {
+  const url = id ? `/api/tag/${id}` : `/api/tag`;
   const params = {
     method,
     headers: {
@@ -54,9 +56,9 @@ export const tagFetch = async (
     throw new Error("失敗しました。");
   }
 
-  const json = res.json();
+  const data = await res.json();
 
-  return json;
+  return data.tag;
 };
 
 export const reavalidate = async (url: string): Promise<void> => {

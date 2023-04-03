@@ -7,7 +7,6 @@ import { OpenModalHandler } from "./hook/useDeleteModal";
 
 type Props = {
   content: Contents;
-  openModal: OpenModalHandler;
 };
 
 export const CopyContent: FC<Props> = (props) => {

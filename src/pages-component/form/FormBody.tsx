@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { FC } from "react";
 import { Contents, Tag } from "src/type/types";
 import { ContentForm } from "./ContentForm";
-import { TagForm } from "./TagForm";
+import { TagForma } from "./TagForm";
 
 type Props = {
   tags: Pick<Tag, "id" | "name">[];
@@ -31,7 +31,7 @@ export const FormBody: FC<Props> = (props) => {
           </Tabs.Panel>
 
           <Tabs.Panel value="tabs" pt="xs">
-            <TagForm />
+            <TagForma />
           </Tabs.Panel>
         </Tabs>
       ) : (

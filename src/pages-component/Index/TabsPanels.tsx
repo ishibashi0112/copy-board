@@ -1,21 +1,30 @@
-import { Alert, SimpleGrid, Tabs, Text } from "@mantine/core";
-import { Tag } from "src/type/types";
+import {
+  Alert,
+  Button,
+  Card,
+  Group,
+  SimpleGrid,
+  Tabs,
+  Text,
+} from "@mantine/core";
 import { CopyContent } from "./CopyContent";
 import React, { FC } from "react";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
-import { OpenModalHandler } from "./hook/useDeleteModal";
+import { useTags } from "src/lib/hook/useTags";
+import { AddContent } from "./addContent";
 
-type Props = {
-  tags: Tag[];
-  openModal: OpenModalHandler;
-};
+export const TabsPanels: FC = () => {
+  const { tags } = useTags();
 
-export const TabsPanels: FC<Props> = ({ tags, openModal }) => {
+  if (!tags) {
+    return <></>;
+  }
+
   return (
     <div>
       {tags.map((tag) => (
         <Tabs.Panel key={tag.id} value={tag.id} pt="xs">
-          {tag.contents.length ? (
+          {tag.contents?.length ? (
             <SimpleGrid
               cols={3}
               breakpoints={[
@@ -25,17 +34,16 @@ export const TabsPanels: FC<Props> = ({ tags, openModal }) => {
               ]}
             >
               {tag.contents.map((content) => (
-                <CopyContent
-                  key={content.id}
-                  content={content}
-                  openModal={openModal}
-                />
+                <CopyContent key={content.id} content={content} />
               ))}
             </SimpleGrid>
           ) : (
-            <Alert className="mt-5" icon={<InfoCircledIcon />} color="gray">
-              <Text>コンテンツが1つもありません。</Text>
-            </Alert>
+            <>
+              <AddContent />
+              <Alert className="mt-5" icon={<InfoCircledIcon />} color="gray">
+                <Text>コンテンツがありません。</Text>
+              </Alert>
+            </>
           )}
         </Tabs.Panel>
       ))}

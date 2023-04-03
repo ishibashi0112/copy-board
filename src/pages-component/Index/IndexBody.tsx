@@ -1,40 +1,46 @@
 import { Alert, Anchor, Tabs, Text } from "@mantine/core";
-import { useDeleteModal } from "src/pages-component/Index/hook/useDeleteModal";
-import { Tag } from "src/type/types";
 import React, { FC, useState } from "react";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { useDarkMode } from "src/lib/hook/useDarkMode";
-import { IconAlertCircle } from "@tabler/icons";
+import { IconAlertCircle } from "@tabler/icons-react";
 import { TabsList } from "./TabsList";
 import { TabsPanels } from "./TabsPanels";
 import Link from "next/link";
+import { useTags } from "src/lib/hook/useTags";
 
-type Props = {
-  tags: Tag[];
-};
-
-export const IndexBody: FC<Props> = ({ tags }) => {
+export const IndexBody: FC = () => {
   const { isDark } = useDarkMode();
+  const { tags } = useTags();
 
   const [activeTab, setActiveTab] = useState<string | null>(
-    tags[0] ? tags[0].id : ""
+    tags && tags[0] ? tags[0].id : ""
   );
-  const { openModal, modalComponent } = useDeleteModal();
 
-  if (!tags.length) {
+  if (!tags || !tags.length) {
     return (
-      <Alert
-        className="overflow-visible "
-        icon={<InfoCircledIcon />}
-        color="gray"
-      >
-        <Text>
-          タグが1つもありません。
-          <Anchor component={Link} href="/form">
-            最初のタグを作成
-          </Anchor>
-        </Text>
-      </Alert>
+      <>
+        <Alert
+          classNames={{ root: "my-3 py-2 -z-10", body: "flex items-center" }}
+          icon={<IconAlertCircle size={16} />}
+          color="gray"
+        >
+          <Text fz="xs">
+            更新が反映されない場合は、タイトルをクリックしてください。
+          </Text>
+        </Alert>
+        <Alert
+          className="overflow-visible "
+          icon={<InfoCircledIcon />}
+          color="gray"
+        >
+          <Text>
+            タグが1つもありません。
+            <Anchor component={Link} href="/form">
+              最初のタグを作成
+            </Anchor>
+          </Text>
+        </Alert>
+      </>
     );
   }
 
@@ -56,12 +62,10 @@ export const IndexBody: FC<Props> = ({ tags }) => {
         value={activeTab}
         onTabChange={setActiveTab}
       >
-        <TabsList tags={tags} openModal={openModal} />
+        <TabsList />
 
-        <TabsPanels tags={tags} openModal={openModal} />
+        <TabsPanels />
       </Tabs>
-
-      {modalComponent}
     </div>
   );
 };

@@ -1,21 +1,17 @@
 import { UnstyledButton, Title, Group, ScrollArea, Card } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
-import { FC, useState, useRef } from "react";
+import { FC, useRef } from "react";
 import { useClipboard } from "src/lib/hook/useClipboard";
 import { useDarkMode } from "src/lib/hook/useDarkMode";
 import { Contents } from "src/type/types";
 import { CopyedBadge } from "./CopiedBadge";
-import { CopyList } from "./CopyList";
 import { FullTextButton } from "./FullTextButton";
-import { OpenModalHandler } from "./hook/useDeleteModal";
 import { Menus } from "./Menus";
 
 type Props = {
   content: Contents;
-  openModal: OpenModalHandler;
 };
 
-export const CopyCard: FC<Props> = ({ content, openModal }) => {
+export const CopyCard: FC<Props> = ({ content }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { copy, copied } = useClipboard({ timeout: 800 });
 
@@ -51,7 +47,7 @@ export const CopyCard: FC<Props> = ({ content, openModal }) => {
       <Group className="absolute top-2 right-2" position="apart">
         <Group spacing={1}>
           <FullTextButton content={content} />
-          <Menus content={content} openModal={openModal} />
+          <Menus content={content} />
         </Group>
       </Group>
     </div>

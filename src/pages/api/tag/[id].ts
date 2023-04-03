@@ -8,19 +8,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     if (req.method === "PUT") {
-      await prisma.tags.update({
+      const tag = await prisma.tags.update({
         where: { id },
         data: req.body,
       });
+      res.status(200).json({ ok: true, tag });
     }
 
     if (req.method === "DELETE") {
       await prisma.tags.deleteMany({
         where: { id },
       });
+      res.status(200).json({ ok: true });
     }
-
-    res.status(200).json({ ok: true });
   } catch (error) {
     res.status(500).json({ ok: false });
   }

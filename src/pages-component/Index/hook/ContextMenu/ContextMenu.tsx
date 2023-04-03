@@ -7,9 +7,13 @@ export const ContextMenu = forwardRef<
 >((props, ref) => {
   const { opened, position, children } = props;
 
+  if (!opened) {
+    return null;
+  }
+
   return (
     <div className="absolute z-[9999]" ref={ref} style={position}>
-      {opened ? children : null}
+      {children}
     </div>
   );
 });

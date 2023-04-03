@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { contentFetch, reavalidate, tagFetch } from "src/lib/fetcher";
 import { Contents, Tag } from "src/type/types";
-import { IconCheck, IconX, IconAlertCircle } from "@tabler/icons";
+import { IconCheck, IconX, IconAlertCircle } from "@tabler/icons-react";
 
 type ModalState = {
   data: Contents | Tag | null;

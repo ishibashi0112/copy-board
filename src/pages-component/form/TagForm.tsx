@@ -1,12 +1,12 @@
 import { Button, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
-import { IconCheck, IconX } from "@tabler/icons";
+import { IconCheck, IconX } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { FC, useCallback, useState } from "react";
 import { reavalidate, tagFetch } from "src/lib/fetcher";
 
-export const TagForm: FC = () => {
+export const TagForma: FC = () => {
   const { pathname, push } = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 

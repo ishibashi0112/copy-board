@@ -7,14 +7,12 @@ import {
 import Link from "next/link";
 import { FC } from "react";
 import { Contents } from "src/type/types";
-import { OpenModalHandler } from "./hook/useDeleteModal";
 
 type Props = {
   content: Contents;
-  openModal: OpenModalHandler;
 };
 
-export const Menus: FC<Props> = ({ content, openModal }) => {
+export const Menus: FC<Props> = ({ content }) => {
   return (
     <Menu withinPortal position="bottom-end" shadow="sm" openDelay={100}>
       <Menu.Target>
@@ -34,7 +32,7 @@ export const Menus: FC<Props> = ({ content, openModal }) => {
         <Menu.Item
           icon={<CrossCircledIcon />}
           color="red"
-          onClick={() => openModal(content)}
+          // onClick={() => openModal(content)}
         >
           削除
         </Menu.Item>

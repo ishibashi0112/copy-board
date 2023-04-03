@@ -2,16 +2,22 @@ import { Avatar, Tabs, Text } from "@mantine/core";
 import { Tag } from "src/type/types";
 import React, { FC } from "react";
 import { useDarkMode } from "src/lib/hook/useDarkMode";
-import { ContextMenuHandler } from "./hook/ContextMenu/useContextMenu";
+import { useContextMenu } from "./hook/ContextMenu/useContextMenu";
+import { ContextMenu } from "./hook/ContextMenu/ContextMenu";
+import { TagCtxMenuBody } from "./hook/ContextMenu/TagCtxMenuBody";
 
 type Props = {
   tag: Tag;
-
-  handleContextMenu: ContextMenuHandler<Tag>;
 };
 
-export const TabsListItem: FC<Props> = ({ tag, handleContextMenu }) => {
+export const TabsListItem: FC<Props> = ({ tag }) => {
   const { isDark } = useDarkMode();
+  const {
+    ref,
+    data: tagData,
+    contextMenuProps,
+    handleContextMenu,
+  } = useContextMenu<Tag>();
 
   return (
     <div key={tag.id}>
@@ -20,7 +26,7 @@ export const TabsListItem: FC<Props> = ({ tag, handleContextMenu }) => {
         key={tag.id}
         value={tag.id}
         rightSection={
-          tag.contents.length ? (
+          tag.contents?.length ? (
             <Avatar
               className="bg-opacity-20"
               size={19}
@@ -36,6 +42,10 @@ export const TabsListItem: FC<Props> = ({ tag, handleContextMenu }) => {
       >
         <Text>{tag.name}</Text>
       </Tabs.Tab>
+
+      <ContextMenu ref={ref} {...contextMenuProps}>
+        <TagCtxMenuBody tagData={tagData} />
+      </ContextMenu>
     </div>
   );
 };

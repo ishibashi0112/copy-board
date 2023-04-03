@@ -10,10 +10,9 @@ import { Menus } from "./Menus";
 
 type Props = {
   content: Contents;
-  openModal: OpenModalHandler;
 };
 
-export const CopyList: FC<Props> = ({ content, openModal }) => {
+export const CopyList: FC<Props> = ({ content }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { copy, copied } = useClipboard({ timeout: 800 });
 
@@ -31,7 +30,7 @@ export const CopyList: FC<Props> = ({ content, openModal }) => {
         onClick={() => copy(ref.current as HTMLDivElement)}
       >
         <Group position="apart">
-          <Group noWrap>
+          <Group align="center" noWrap>
             <Title order={5}>{content.title}</Title>
             <Text
               ref={ref}
@@ -49,7 +48,7 @@ export const CopyList: FC<Props> = ({ content, openModal }) => {
       <Group className="absolute top-3 right-2" spacing={1}>
         <FullTextButton content={content} />
 
-        <Menus content={content} openModal={openModal} />
+        <Menus content={content} />
       </Group>
     </div>
   );

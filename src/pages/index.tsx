@@ -3,9 +3,10 @@ import { NextPage } from "next";
 import { IndexBody } from "src/pages-component/Index/IndexBody";
 import { Layout } from "src/pages-Layout/Layout";
 import { Tag } from "src/type/types";
+import { SWRConfig } from "swr/_internal";
 
 type Props = {
-  tags: Tag[];
+  fallback: { tags: Tag[] };
 };
 
 export const getStaticProps = async () => {
@@ -21,15 +22,17 @@ export const getStaticProps = async () => {
   });
 
   return {
-    props: { tags },
+    props: { fallback: { ["/api/tag"]: tags } },
   };
 };
 
-const Home: NextPage<Props> = ({ tags }) => {
+const Home: NextPage<Props> = ({ fallback }) => {
   return (
-    <Layout>
-      <IndexBody tags={tags} />
-    </Layout>
+    <SWRConfig value={{ fallback }}>
+      <Layout>
+        <IndexBody />
+      </Layout>
+    </SWRConfig>
   );
 };
 

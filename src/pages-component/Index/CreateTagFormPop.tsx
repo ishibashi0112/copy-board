@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { cloneElement, FC, ReactElement, useCallback, useState } from "react";
 import { reavalidate, tagFetch } from "src/lib/fetcher";
 import { Tag } from "src/type/types";
-import { IconCheck, IconX } from "@tabler/icons";
+import { IconCheck, IconX } from "@tabler/icons-react";
 
 type Props = {
   targetElement: ReactElement;
