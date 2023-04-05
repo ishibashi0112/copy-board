@@ -129,7 +129,6 @@ export const ContentForm: FC<Props> = ({ tags, content }) => {
       <TextInput label="タイトル" required {...form.getInputProps("title")} />
 
       <div>
-        <Text>内容</Text>
         <RichTextEditor
           editor={editor}
           classNames={{ content: "min-h-[300px]" }}
